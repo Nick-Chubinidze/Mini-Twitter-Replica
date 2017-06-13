@@ -1,0 +1,78 @@
+﻿@using Twitter_Nika_Chubinidze.Models
+@model FriendModel
+
+@{
+    ViewBag.Title = "Index";
+}
+ 
+
+    <div class="row">
+        <div class="container">
+            <div class="col-md-10  animated fadeInUp">
+                <div class="widget">
+                    <div class="table-responsive">
+                        <table class="table user-list">
+                            <thead>
+                                <tr>
+                                    <th><span></span></th>
+                                    <th><span></span></th>
+                                    <th class="text-center"><span></span></th>
+                                    <th><span></span></th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null)
+                                { 
+                                 if (Model.Friends != null && Model.Friends.Count() > 0)
+                                {
+                                    foreach (var User in Model.Friends)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <p class="user-link">@User.Name @User.Surname</p> 
+                                            </td>  
+                                            <td>
+                                                @Html.ActionLink(@User.Email, "Index", "Home", new { @friend = User.Email }, null)
+                                            </td>  
+                                            <td>
+                                                <p href="#">Followed</p>
+                                            </td>  
+                                        </tr>
+                                    }
+                                }
+                                if (Model.Users != null && Model.Users.Count() > 0)
+                                {
+                                    foreach (var User in Model.Users)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <p class="user-link">@User.Name @User.Surname</p>
+                                            </td>
+                                            <td>
+                                                <a href="#" class="nonFriend">@User.Email</a>
+                                            </td>
+                                            <td>
+                                                @Html.ActionLink("Follow", "AddToFriends", new { @class = "btn btn-info btn-sm", @follow = User.Email })
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                @*else
+                                {
+                                    <tr>
+                                        <td>
+                                            <p>No matches found sorry!</p>
+                                        </td>
+                                    </tr>
+                                }*@ 
+                                }
+                            </tbody>
+                        </table>
+                        <h1>@ViewBag.Error</h1>
+                    </div> 
+                </div>
+            </div> 
+        </div>
+    </div>
+

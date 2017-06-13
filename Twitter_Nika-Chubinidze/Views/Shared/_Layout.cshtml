@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="~/Content/img/favicon.png">
+    <title>Twitter</title>
+    <link href="~/Content/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/assets/css/animate.min.css" rel="stylesheet">
+    <link href="~/Content/font-awesome-4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/Content/assets/css/timeline.css" rel="stylesheet">
+    <script src="~/Content/assets/js/jquery.1.11.1.min.js"></script>
+    <script src="~/Content/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+    <script src="~/Content/assets/js/custom.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>  
+    <link href="~/Content/assets/css/list_users.css" rel="stylesheet">
+</head>
+<body class="animated fadeIn"> 
+    <nav class="navbar navbar-default navbar-fixed-top navbar-principal">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-collapse collapse"> 
+                    @Html.Partial("_LoginPartial")
+                </div> 
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <div class="col-md-5 col-sm-4"> 
+                        @using (Html.BeginForm("Index", "Friend", FormMethod.Get, new { @class = "navbar-form", @id = "searchForm" }))
+                    {
+                        <div class="form-group" style="display:inline;"> 
+                            <div class="input-group" style="display:table;"> 
+                                <input class="form-control" name="search" placeholder="Search..." autocomplete="off" type="text" id="txtSearch"> 
+                                        <span class="input-group-addon" style="width:1%;">
+                                            <a href='#'><span class="glyphicon glyphicon-search" id="spanSearch"></span></a> 
+                                        </span>  
+                            </div>  
+                        </div>
+                    } 
+                </div>
+                <ul class="nav navbar-nav navbar-right"> 
+                    <li class="active"><a href="/Home"><i class="fa fa-bars"></i>&nbsp;Home</a></li>
+                    <li><a href="/Friend" class="nav-controller"><i class="fa fa-user"></i>Following</a></li>  
+                </ul>
+            </div>
+        </div>
+    </nav> 
+    @RenderBody()
+    <footer class="welcome-footer">
+        <div class="container">
+            <p>
+                <div class="footer-links">
+                    <a href="#">Terms of Use</a> |
+                    <a href="#">Privacy Policy</a> |
+                    <a href="#">Developers</a> |
+                    <a href="#">Contact</a> |
+                    <a href="#">About</a>
+                </div>
+                Copyright Nick-Twitter Company - All rights reserved
+            </p>
+        </div>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+<script type="text/javascript">
+    function updateSuccess() {
+        this.reset()
+        $("#txtPost").val('')
+        $("#txtComment").val('')
+        $("#btnButton").hide() 
+    } 
+</script>

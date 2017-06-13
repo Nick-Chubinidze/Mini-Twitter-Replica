@@ -1,0 +1,92 @@
+﻿@using Twitter_Nika_Chubinidze.Models
+@model MainModel
+
+@{ 
+    ViewBag.Title = "Home Page";
+}
+  
+@using (Html.BeginForm("SaveImage", "Home", FormMethod.Post, new { enctype = "multipart/form-data", @name = "imgSave", @id = "saveForm" }))
+{ 
+    <input type="file" id="myFile" name="img" style="display: none;" accept="image/gif,image/jpeg,image/jpg,image/png" />
+}
+@using (Html.BeginForm("SaveCoverImage", "Home", FormMethod.Post, new { enctype = "multipart/form-data", @name = "imgCoverSave", @id = "coverSaveForm" }))
+{
+    <input type="file" id="myCoverFile" name="img" style="display: none;" accept="image/gif,image/jpeg,image/jpg,image/png" />
+}
+
+<div class="row text-center cover-container" id="cover" >  
+        <div class="cover-container" id="cover-bottom"  style="background-image: url('@Model.CoverPhoto');background-size:cover"> 
+            <img id="profile" src="@(Model.ProfilePhoto != null ? Model.ProfilePhoto : "/Content/img/default-avatar.png")" /> 
+            <h1 class="profile-name">@Model.FirstName @Model.LastName</h1>
+        </div> 
+</div>
+    <!-- Timeline content -->
+    <div class="container">
+        <div class="col-md-10 no-paddin-xs">
+            <div class="row"> 
+                    <div id="edit-profile">
+                        @if (Model.User == User.Identity.Name)
+                    {
+                        <button class="btn btn-info" id="btnedit">Edit profile</button>
+                        <button class="btn btn-info" value="Save Changes" id="btnsave">Save changes</button>
+                        <button class="btn btn-info" id="btncancel">Cancel</button>
+                    } 
+                    </div> 
+                @if (TempData["message"] != null)
+                {
+                    <div class="Message">@TempData["message"]</div>
+                }
+                <!-- left content-->
+                <div class="profile-nav col-md-4">
+                    <!-- Friends activity -->
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">@Model.User</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="notification-row">
+                                <div class="notification-padding"> 
+                                    <div class="sidebar-fa-text">
+                                        <b>Georgian</b><br />
+                                        <b>Joined September 2016</b><br /> 
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>   
+                <div class="profile-info col-md-8  animated fadeInRight">
+                    <div class="panel">
+                        @using (Ajax.BeginForm("Tweets",
+                            new AjaxOptions
+                            {
+                                HttpMethod = "Post",
+                                UpdateTargetId = "refTable",
+                                OnSuccess = "updateSuccess"
+                            }))
+                        {
+                        <textarea placeholder="Whats in your mind today?" rows="2" class="form-control input-lg p-text-area" id="txtPost" name="post"></textarea> 
+                        <div class="panel-footer">
+                            <button class="btn btn-info pull-right" id="btnButton" style="display:none">Post</button>
+                            <ul class="nav nav-pills"> 
+                            </ul>
+                        </div>
+                        }
+                    </div>
+                    <div id="refTable">
+                        @if (Model.Tweets != null)
+                        {
+                            { Html.RenderPartial("Tweets", Model.Tweets); }
+                        }
+                    </div>
+
+                    @*<div class="panel panel-white post-load-more panel-shadow text-center">
+                        <button class="btn btn-info">
+                            <i class="fa fa-refresh"></i>Load More...
+                        </button>
+                    </div>*@
+                </div> 
+            </div>
+        </div>
+    </div>   
+ 

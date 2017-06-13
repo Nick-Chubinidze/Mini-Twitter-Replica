@@ -1,0 +1,66 @@
+﻿@using Domain.Entities
+@model IEnumerable<Tweet>  
+ 
+@if (Model != null )
+{
+    foreach (var tweet in Model)
+    {
+        if (!tweet.IsComment)
+        { 
+        <div class="panel panel-white post panel-shadow" >  
+            <div class="post-heading">
+                <div class="pull-left meta">
+                    <div class="title h5">
+                        <a href="#" class="post-user-name">@tweet.User.Name @tweet.User.Surname</a> 
+                        Made a post.
+                    </div>
+                    <h6 class="text-muted time">@tweet.TweetDate</h6>
+                </div>
+            </div>
+            <div class="post-description">
+                <p>@tweet.TweetText</p>
+                <div class="stats"> 
+                    @using (Ajax.BeginForm("DeleteTweet", new { post = tweet.Id  },
+                                            new AjaxOptions
+                                            {
+                                                HttpMethod = "Post",
+                                                UpdateTargetId = "refTable",
+                                                OnSuccess = "updateSuccessTweet"
+                                            }))
+                    {
+                        if (@tweet.User.Email == User.Identity.Name)
+                        {   
+                                <button class="fa fa-trash-o fa-stack-1x fa-inverse" name="btnDelete"  style="width:40px; margin-left:597px"></button> 
+                        }
+                    }
+                </div>             
+            </div> 
+            <div class="post-footer">
+                @using (Ajax.BeginForm("ReTweets", new { tweetId = tweet.Id },
+                new AjaxOptions
+                {
+                    HttpMethod = "Post",
+                    UpdateTargetId = "refTable",
+                    OnSuccess = "updateSuccessTweet"
+                }))
+                { 
+                <input class="form-control add-comment-input" placeholder="Add a comment..." type="text" id="txtComment" name="post" >
+
+                <div class="panel-footer">
+                    <button class="btn btn-info pull-right" id="btnComment" disabled="disabled">Post</button>
+                    <ul class="nav nav-pills"></ul>
+                </div> 
+                }
+                <div id="refTableTweet">
+                    @if (tweet != null)
+                    {
+                        { Html.RenderPartial("ReTweets", tweet); }
+                    }
+                </div> 
+            </div>
+        </div>  
+        }
+    }
+} 
+
+<script src="~/Content/assets/js/Retweet.js"></script>

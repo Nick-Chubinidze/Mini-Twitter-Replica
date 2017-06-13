@@ -1,0 +1,20 @@
+﻿@using Domain.Entities
+@model Tweet 
+
+@if (Model.ReTweets != null)
+{
+    foreach (var retweet in Model.ReTweets)
+    {
+        <ul class="comments-list">
+            <li class="comment">
+                <div class="comment-body">
+                    <div class="comment-heading">
+                        <h4 class="comment-user-name"><a href="#">@retweet.User.Name @retweet.User.Surname</a></h4>
+                        <h5 class="time">Commented @retweet.TweetDate</h5>
+                    </div>
+                    <p>@retweet.TweetText</p>
+                </div>
+            </li>
+        </ul>
+    }
+}  
